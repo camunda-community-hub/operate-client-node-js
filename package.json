@@ -22,7 +22,9 @@
   "homepage": "https://github.com/camunda-community-hub/operate-client-node-js#readme",
   "dependencies": {
     "camunda-saas-oauth": "^1.1.0",
-    "got": "^11.8.5"
+    "got": "^11.8.5",
+    "ky": "^0.25.1",
+    "ky-universal": "^0.8.2"
   },
   "devDependencies": {
     "@types/jest": "^29.2.3",
