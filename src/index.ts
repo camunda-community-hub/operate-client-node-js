@@ -1,1 +1,1 @@
-export { OperateClient } from "./lib/OperateClient";
+export { OperateApiClient } from "./lib/OperateApiClient";

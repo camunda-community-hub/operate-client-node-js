@@ -1,10 +1,29 @@
 # Operate API Client for Node.js
 
-A Node.js client for interacting with the Camunda 8 Operate API.
+A Node.js client for interacting with the [Camunda 8 Operate REST API](https://docs.camunda.io/docs/apis-clients/operate-api/).
 
-A work in progress....
+## Installation
 
-## For further investigation
+```
+npm i operate-api-client
+```
 
-What happens when you use credentials with the wrong scope to access the API?
-You need to ask for a token with the right audience.
+## Usage
+
+Set the credentials for Camunda SaaS in the environment, then:
+
+```typescript
+import { OperateApiClient } from 'operate-api-client'
+
+const operate = new OperateApiClient()
+
+operate.searchProcessInstances({
+    filter: {
+        state: "ACTIVE"
+    },
+    size: 50
+}).then(instances => {
+    console.log(instances)
+})
+```
+

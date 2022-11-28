@@ -1,10 +1,10 @@
 {
-  "name": "operate-client-node",
+  "name": "operate-api-client",
   "version": "1.0.0",
   "description": "A Node.js client for interacting with the Camunda 8 Operate API",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --detectOpenHandles",
     "build": "tsc --project tsconfig.build.json"
   },
   "repository": {
@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/camunda-community-hub/operate-client-node-js#readme",
   "dependencies": {
-    "camunda-saas-oauth": "^1.1.0",
+    "camunda-saas-oauth": "^1.1.1",
     "got": "^11.8.5"
   },
   "devDependencies": {

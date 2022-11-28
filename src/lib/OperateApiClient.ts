@@ -7,7 +7,7 @@ const pkg = require('../../package.json')
 
 const OPERATE_API_VERSION = 'v1'
 
-export class OperateClient {
+export class OperateApiClient {
     oAuthProvider: OAuthProvider;
     creds: { ZEEBE_ADDRESS: string; ZEEBE_CLIENT_ID: string; ZEEBE_CLIENT_SECRET: string; ZEEBE_AUTHORIZATION_SERVER_URL: string; complete: true; };
     userAgentString: string;
@@ -34,7 +34,7 @@ export class OperateClient {
             'content-type': 'application/json',
             'authorization': `Bearer ${await this.oAuthProvider.getToken('OPERATE')}`,
             'user-agent': this.userAgentString,
-            'accept': 'application/json'
+            'accept': '*/*'
         }
     }
 
@@ -55,12 +55,12 @@ export class OperateClient {
         }).json()
     }
 
-    public async getProcessDefinitionXML(processDefinitionKey: number) {
+    public async getProcessDefinitionXML(processDefinitionKey: number): Promise<string> {
         const headers = await this.getHeaders()
         return got(`process-definitions/${processDefinitionKey}/xml`, {
             headers,
             ...this.gotOptions
-        }).json()
+        }).text()
     }
 
     public async searchProcessInstances(query: Query<ProcessInstance> = {}): Promise<SearchResults<ProcessInstance>> {
@@ -131,7 +131,7 @@ export class OperateClient {
         }).json()
     }
 
-    public async getVariables(key: number) {
+    public async getVariables(key: number): Promise<Variables> {
         const headers = await this.getHeaders()
         return got(`variables/${key}`, {
             headers,

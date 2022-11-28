@@ -1,7 +1,7 @@
 import { ProcessDefinition, ProcessInstance, Query } from "../lib/APIObjects";
-import { OperateClient } from "../lib/OperateClient";
+import { OperateApiClient } from "../";
 
-const c = new OperateClient();
+const c = new OperateApiClient();
 
 test("It can search process definitions", async () => {
   const query: Query<ProcessDefinition> = {
@@ -15,26 +15,23 @@ test("It can search process definitions", async () => {
     ],
   };
   const defs = await c.searchProcessDefinitions(query);
-  //   console.log(defs);
   expect(defs.total).toBeGreaterThanOrEqual(0);
 });
 
 test("It can get a specific process definition", async () => {
   const p = await c.getProcessDefinition(2251799817140074);
-  //   console.log(p);
   expect(p).toBeTruthy();
 });
 
 test("It can get the process definition XML", async () => {
   const p = await c.getProcessDefinitionXML(2251799817140074);
-    console.log(p);
   expect(p).toBeTruthy();
 });
 
 test("It can search for process instances", async () => {
-  const query: Query<ProcessInstance> = {
+  const query: Query<ProcessInstance>  = {
     filter: {
-      processVersion: 1,
+      processVersion: 1
     },
     size: 50,
     sort: [
