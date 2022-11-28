@@ -1,5 +1,13 @@
 # Operate API Client for Node.js
 
+ [![NPM](https://nodei.co/npm/operate-api-client.png)](https://npmjs.org/package/operate-api-client) 
+
+![Community Extension](https://img.shields.io/badge/Community%20Extension-An%20open%20source%20community%20maintained%20project-FF4700)
+
+![Lifecycle](https://img.shields.io/badge/Lifecycle-Stable-brightgreen)
+
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 A Node.js client for interacting with the [Camunda 8 Operate REST API](https://docs.camunda.io/docs/apis-clients/operate-api/).
 
 ## Installation
