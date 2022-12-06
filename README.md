@@ -8,7 +8,9 @@
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-A Node.js client for interacting with the [Camunda 8 Operate REST API](https://docs.camunda.io/docs/apis-clients/operate-api/).
+A Node.js client for interacting with the [Camunda 8 Operate REST API](https://docs.camunda.io/docs/apis-clients/operate-api/) in Camunda 8 SaaS.
+
+Uses [camunda-saas-oauth-nodejs](https://github.com/camunda-community-hub/camunda-saas-oauth-nodejs) to use client credentials from the environment for authentication.
 
 ## Installation
 

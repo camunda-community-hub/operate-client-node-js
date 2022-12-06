@@ -51,7 +51,7 @@ test("It can find a specific process instance", async () => {
   const query: Query<ProcessInstance> = {
     filter: {
       processVersion: 1,
-      key: 2251799818436131,
+      key: 2251799819847322,
     },
     size: 50,
     sort: [
@@ -66,12 +66,13 @@ test("It can find a specific process instance", async () => {
 });
 
 test("It can get a specific process instance", async () => {
-  const p = await c.getProcessInstance(2251799818436131);
+  const p = await c.getProcessInstance(2251799819847322);
   expect(p).toBeTruthy();
 });
 
 test("It can find incidents", async () => {
   const is = await c.searchIncidents();
+  console.log(is)
   expect(is).toBeTruthy();
 });
 
