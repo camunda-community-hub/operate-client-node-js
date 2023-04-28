@@ -1,6 +1,6 @@
 {
   "name": "operate-api-client",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "description": "A Node.js client for interacting with the Camunda 8 Operate API",
   "main": "dist/index.js",
   "scripts": {
