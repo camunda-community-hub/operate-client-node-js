@@ -169,6 +169,35 @@ export class OperateApiClient {
     }
 
     /**
+     * @description Get the statistics for a process instance, grouped by flow nodes
+     */
+    public async getProcessInstanceStatistics(processInstanceKey: number): Promise<{
+        // The id of the flow node for which the results are aggregated
+        activityId: string,
+        active: number,
+        canceled: number,
+        incidents: number,
+        completed: number
+    }[]> {
+        const headers = await this.getHeaders()
+        return got(`process-instances/${processInstanceKey}/statistics`, {
+            headers,
+            ...this.gotOptions
+        }).json()
+    }
+
+    /**
+     * @description Get sequence flows of process instance by key
+     */
+    public async getProcessInstanceSequenceFlows(processInstanceKey: number): Promise<string[]> {
+        const headers = await this.getHeaders()
+        return got(`process-instances/${processInstanceKey}/sequence-flows`, {
+            headers,
+            ...this.gotOptions
+        }).json()        
+    }
+
+    /**
      * 
      * @description Search and retrieve incidents. 
      * @example
