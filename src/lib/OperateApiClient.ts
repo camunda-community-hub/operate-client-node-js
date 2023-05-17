@@ -1,7 +1,7 @@
 import { getOperateToken } from "camunda-saas-oauth";
 import { getOperateCredentials } from "camunda-8-credentials-from-env"
 import got from 'got';
-import { ChangeStatus, FlownodeInstance, Incident, ProcessDefinition, ProcessInstance, Query, SearchResults, Variables } from "./APIObjects";
+import { ChangeStatus, FlownodeInstance, Incident, ProcessDefinition, ProcessInstance, Query, SearchResults, Variable } from "./APIObjects";
 
 const pkg = require('../../package.json')
 
@@ -262,7 +262,7 @@ export class OperateApiClient {
         }).json()        
     }
 
-    public async searchVariables(query: Query<Variables>): Promise<SearchResults<Variables>> {
+    public async searchVariables(query: Query<Variable>): Promise<SearchResults<Variable>> {
         const headers = await this.getHeaders()
         return got.post(`variables/search`, {
             headers,
@@ -271,9 +271,33 @@ export class OperateApiClient {
         }).json()
     }
 
-    public async getVariables(key: number): Promise<Variables> {
+    /**
+     * @description Retrieve the variables for a Process Instance, given its key
+     * @param processInstanceKey 
+     * @returns 
+     */
+    public async getVariablesforProcess(processInstanceKey: number): Promise<{items: Variable[]}> {
         const headers = await this.getHeaders()
-        return got(`variables/${key}`, {
+        const body = {
+            filter: {
+                processInstanceKey
+            }
+        }
+        return got.post(`variables/search`, {
+            headers,
+            body: JSON.stringify(body),
+            ...this.gotOptions
+        }).json()
+    }
+
+    /**
+     * 
+     * @description Return a variable identified by its variable key 
+     * @returns 
+     */
+    public async getVariables(variableKey: number): Promise<Variable> {
+        const headers = await this.getHeaders()
+        return got(`variables/${variableKey}`, {
             headers,
             ...this.gotOptions
         }).json()

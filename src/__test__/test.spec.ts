@@ -90,3 +90,9 @@ xtest("It can get a specific incident", async () => {
   const i = await c.getIncident(2251799818436725);
   expect(i).toBeTruthy();
 });
+
+xtest("It can get variables for a specific process", async () => {
+  const vars = await c.getVariablesforProcess(4503599629029980)
+  console.log(vars)
+  expect(vars).toBeTruthy()
+})

@@ -66,7 +66,7 @@ export interface FlownodeInstance {
   incident: boolean;
 }
 
-export interface Variables {
+export interface Variable {
   key: number;
   processInstanceKey: number;
   scopeKey: number;

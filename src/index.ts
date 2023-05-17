@@ -9,5 +9,5 @@ export {
     ProcessInstance, 
     Query, 
     SearchResults, 
-    Variables 
+    Variable 
 } from "./lib/APIObjects"
