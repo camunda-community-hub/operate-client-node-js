@@ -1,4 +1,4 @@
-import { getOperateToken } from "camunda-saas-oauth";
+import { OAuthProviderImpl, getOperateToken } from "camunda-saas-oauth";
 import { getOperateCredentials } from "camunda-8-credentials-from-env"
 import got from 'got';
 import { ChangeStatus, FlownodeInstance, Incident, ProcessDefinition, ProcessInstance, Query, SearchResults, Variable } from "./APIObjects";
@@ -26,6 +26,7 @@ const OPERATE_API_VERSION = 'v1'
 export class OperateApiClient {
     private userAgentString: string;
     private gotOptions: { prefixUrl: string; };
+    oauthProvider: OAuthProviderImpl | undefined;
 
     /**
      * @example
@@ -33,18 +34,26 @@ export class OperateApiClient {
      * const operate = new OperateApiClient()
      * ```
      */
-    constructor() {
+    constructor(options: {
+        oauthProvider?: OAuthProviderImpl,
+        baseUrl?: string
+    } = {}) {
+        this.oauthProvider = options.oauthProvider
         this.userAgentString = `operate-client-nodejs/${pkg.version}`
-        const creds = getOperateCredentials()
+        const baseUrl = options.baseUrl ?? getOperateCredentials().CAMUNDA_OPERATE_BASE_URL
         this.gotOptions = {
-            prefixUrl: `${creds.CAMUNDA_OPERATE_BASE_URL}/${OPERATE_API_VERSION}`
+            prefixUrl: `${baseUrl}/${OPERATE_API_VERSION}`
         }
     }
 
     private async getHeaders() {
+        const token = (this.oauthProvider) ? 
+            await this.oauthProvider.getToken('OPERATE') : 
+            await getOperateToken(this.userAgentString)
+ 
         return {
             'content-type': 'application/json',
-            'authorization': `Bearer ${await getOperateToken(this.userAgentString)}`,
+            'authorization': `Bearer ${token}`,
             'user-agent': this.userAgentString,
             'accept': '*/*'
         }

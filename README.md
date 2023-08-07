@@ -36,4 +36,37 @@ operate.searchProcessInstances({
     console.log(instances)
 })
 ```
+## Advanced Usage
 
+If you want to create multiple instances of the client in an application - for example, to address different clusters - then you can hydrate the client manually using an `OAuthProviderImpl` like so:
+
+```typescript
+import { OperateApiClient } from 'operate-api-client'
+import { OAuthProviderImpl } from "camunda-saas-oauth"
+
+const oauthProvider1 = new OAuthProviderImpl({
+    audience: 'zeebe.camunda.io',
+    authServerUrl: 'https://login.cloud.camunda.io/oauth/token',
+    clientId: process.env.ZEEBE_CLIENT_ID_1, 
+    clientSecret: process.env.ZEEBE_CLIENT_SECRET_1,
+    userAgentString: 'operate-client-nodejs'
+})
+
+const client_1 = new OperateApiClient({
+    oauthProvider,
+    baseUrl: process.env.CAMUNDA_OPERATE_BASE_URL_1
+});
+
+const oauthProvider2 = new OAuthProviderImpl({
+    audience: 'zeebe.camunda.io',
+    authServerUrl: 'https://login.cloud.camunda.io/oauth/token',
+    clientId: process.env.ZEEBE_CLIENT_ID_2, 
+    clientSecret: process.env.ZEEBE_CLIENT_SECRET_2,
+    userAgentString: 'operate-client-nodejs'
+})
+
+const client_2 = new OperateApiClient({
+    oauthProvider,
+    baseUrl: process.env.CAMUNDA_OPERATE_BASE_URL_2
+});
+```
