@@ -1,5 +1,12 @@
 # Change log
 
+## Version 1.2.1
+
+### Enhancements
+
+-   Add method `getJSONVariablesforProcess` to return variables as an object.
+
+
 ## Version 1.2.0
 
 ### Enhancements

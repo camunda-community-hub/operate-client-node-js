@@ -7,6 +7,7 @@ const pkg = require('../../package.json')
 
 const OPERATE_API_VERSION = 'v1'
 
+type JSONDoc = { [key: string ]: (string | boolean | number | JSONDoc) }
 /**
  * @description The high-level client for Operate.
  * @example
@@ -297,6 +298,26 @@ export class OperateApiClient {
             body: JSON.stringify(body),
             ...this.gotOptions
         }).json()
+    }
+
+    /**
+     * @description Retrieve the variables for a Process Instance as an object, given its key
+     * @param processInstanceKey 
+     * @returns 
+     */
+    public async getJSONVariablesforProcess(processInstanceKey: number): Promise<JSONDoc> {
+        const headers = await this.getHeaders()
+        const body = {
+            filter: {
+                processInstanceKey
+            }
+        }
+        const vars: {items: Variable[]} = await got.post(`variables/search`, {
+            headers,
+            body: JSON.stringify(body),
+            ...this.gotOptions
+        }).json()
+        return vars.items.reduce((prev, curr) => ({ ...prev, [curr.key]: JSON.stringify(curr.value) }), {})
     }
 
     /**
