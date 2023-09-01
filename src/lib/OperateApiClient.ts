@@ -100,7 +100,7 @@ export class OperateApiClient {
      * const definition = await operate.getProcessDefinition(2251799817140074);
      *  ```
      */
-    public async getProcessDefinition(processDefinitionKey: number): Promise<ProcessDefinition> {
+    public async getProcessDefinition(processDefinitionKey: number | string): Promise<ProcessDefinition> {
         const headers = await this.getHeaders()
         return got(`process-definitions/${processDefinitionKey}`, {
             headers,
@@ -108,7 +108,7 @@ export class OperateApiClient {
         }).json()
     }
 
-    public async getProcessDefinitionXML(processDefinitionKey: number): Promise<string> {
+    public async getProcessDefinitionXML(processDefinitionKey: number | string): Promise<string> {
         const headers = await this.getHeaders()
         return got(`process-definitions/${processDefinitionKey}/xml`, {
             headers,
@@ -154,7 +154,7 @@ export class OperateApiClient {
      * const instance = await operate.getProcessInstance(2251799819847322)
      * ```
      */
-    public async getProcessInstance(processInstanceKey: number): Promise<ProcessInstance> {
+    public async getProcessInstance(processInstanceKey: number | string): Promise<ProcessInstance> {
         const headers = await this.getHeaders()
         return got(`process-instances/${processInstanceKey}`, {
             headers,
@@ -170,7 +170,7 @@ export class OperateApiClient {
      * await operate.deleteProcessInstance(2251799819847322)
      * ``` 
      */
-    public async deleteProcessInstance(processInstanceKey: number): Promise<ChangeStatus> {
+    public async deleteProcessInstance(processInstanceKey: number | string): Promise<ChangeStatus> {
         const headers = await this.getHeaders()
         return got.delete(`process-instances/${processInstanceKey}`, {
             headers,
@@ -181,7 +181,7 @@ export class OperateApiClient {
     /**
      * @description Get the statistics for a process instance, grouped by flow nodes
      */
-    public async getProcessInstanceStatistics(processInstanceKey: number): Promise<{
+    public async getProcessInstanceStatistics(processInstanceKey: number | string): Promise<{
         // The id of the flow node for which the results are aggregated
         activityId: string,
         active: number,
@@ -199,7 +199,7 @@ export class OperateApiClient {
     /**
      * @description Get sequence flows of process instance by key
      */
-    public async getProcessInstanceSequenceFlows(processInstanceKey: number): Promise<string[]> {
+    public async getProcessInstanceSequenceFlows(processInstanceKey: number | string): Promise<string[]> {
         const headers = await this.getHeaders()
         return got(`process-instances/${processInstanceKey}/sequence-flows`, {
             headers,
@@ -247,7 +247,7 @@ export class OperateApiClient {
      * console.log(incident.message)
      * ``` 
      */
-    public async getIncident(key: number): Promise<Incident> {
+    public async getIncident(key: number | string): Promise<Incident> {
         const headers = await this.getHeaders()
         return got(`incidents/${key}`, {
             headers,
@@ -264,7 +264,7 @@ export class OperateApiClient {
         }).json()
     }
 
-    public async getFlownodeInstance(key: number): Promise<FlownodeInstance> {
+    public async getFlownodeInstance(key: number | string): Promise<FlownodeInstance> {
         const headers = await this.getHeaders()
         return got(`flownodes/${key}`, {
             headers,
@@ -286,7 +286,7 @@ export class OperateApiClient {
      * @param processInstanceKey 
      * @returns 
      */
-    public async getVariablesforProcess(processInstanceKey: number): Promise<{items: Variable[]}> {
+    public async getVariablesforProcess(processInstanceKey: number | string): Promise<{items: Variable[]}> {
         const headers = await this.getHeaders()
         const body = {
             filter: {
@@ -305,7 +305,7 @@ export class OperateApiClient {
      * @param processInstanceKey 
      * @returns 
      */
-    public async getJSONVariablesforProcess(processInstanceKey: number): Promise<JSONDoc> {
+    public async getJSONVariablesforProcess<T extends {[key: string]: JSONDoc}>(processInstanceKey: number | string): Promise<T> {
         const headers = await this.getHeaders()
         const body = {
             filter: {
@@ -317,7 +317,7 @@ export class OperateApiClient {
             body: JSON.stringify(body),
             ...this.gotOptions
         }).json()
-        return vars.items.reduce((prev, curr) => ({ ...prev, [curr.key]: JSON.stringify(curr.value) }), {})
+        return vars.items.reduce((prev, curr) => ({ ...prev, [curr.name]: JSON.parse(curr.value) }), {} as any)
     }
 
     /**
@@ -325,7 +325,7 @@ export class OperateApiClient {
      * @description Return a variable identified by its variable key 
      * @returns 
      */
-    public async getVariables(variableKey: number): Promise<Variable> {
+    public async getVariables(variableKey: number | string): Promise<Variable> {
         const headers = await this.getHeaders()
         return got(`variables/${variableKey}`, {
             headers,

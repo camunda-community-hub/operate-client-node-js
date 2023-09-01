@@ -96,3 +96,9 @@ xtest("It can get variables for a specific process", async () => {
   console.log(vars)
   expect(vars).toBeTruthy()
 })
+
+xtest("It can get variables as JSON", async () => {
+  const vars = await c.getJSONVariablesforProcess(2251799816518834)
+  console.log(vars)
+  expect(vars).toBeTruthy()
+})
