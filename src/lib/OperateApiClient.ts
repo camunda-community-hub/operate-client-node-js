@@ -310,14 +310,25 @@ export class OperateApiClient {
         const body = {
             filter: {
                 processInstanceKey
-            }
+            },
+            size: 1000
         }
         const vars: {items: Variable[]} = await got.post(`variables/search`, {
             headers,
             body: JSON.stringify(body),
             ...this.gotOptions
         }).json()
-        return vars.items.reduce((prev, curr) => ({ ...prev, [curr.name]: JSON.parse(curr.value) }), {} as any)
+        return vars.items.reduce((prev, curr) => ({ ...prev, [curr.name]: this.safeJSONparse(curr.value) }), {} as any)
+    }
+
+    private safeJSONparse(thing: any) {
+        try {
+            return JSON.parse(thing)
+        } catch (e) {
+            console.log(e)
+            console.log(thing)
+            return thing 
+        }
     }
 
     /**

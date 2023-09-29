@@ -1,5 +1,9 @@
 # Change log
 
+## Version 1.2.3
+
+-   Add private method `safeJSONparse` to handle non-serializable variables.
+-   In version 1.2.2, a maximum of 10 variables were returned by `getJSONVariablesforProcess`. In version 1.2.3, up to 1000 variables are returned.
 ## Version 1.2.2
 
 ### Enhancements
